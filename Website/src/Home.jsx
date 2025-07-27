@@ -1,9 +1,15 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import * as THREE from "three"
 import style from "./Home.module.css"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { createWallet,walletOwnership } from "./Web3/factoryService";
+import { useNavigate } from "react-router-dom"
+import { Web3Context } from "./Web3/Web3Context";
 
 function Home(){
+
+    const navigate=useNavigate()
+    const {web3,account,connectWallet} = useContext(Web3Context)
 
     useEffect(() => {
         const scene=new THREE.Scene()
@@ -54,11 +60,23 @@ function Home(){
 
     },[])
 
+    const metamaskHandle=async()=>{
+        await connectWallet()
+    }
+
+    const walletHandle=async()=>{
+        await createWallet(web3,account)
+        navigate("/wallet")
+    }
+
     return(
         <>
             <div className={style.login}>
                 <h1 className={style.head}>Wallet Ownership</h1>
-                <button>Own Wallet</button>
+                {(!account || !web3)?
+                    (<button onClick={metamaskHandle}>Connect Metamask</button>)
+                :
+                    (<button onClick={walletHandle}>Own Wallet</button>)}
             </div>
             <canvas className="canva"></canvas>   
         </>

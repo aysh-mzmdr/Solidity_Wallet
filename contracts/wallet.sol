@@ -2,13 +2,13 @@
 
 pragma solidity ^0.8.0;
 
-contract wallet{
+contract Wallet{
 
     uint public balance;
     address public owner;
 
-    constructor(){
-        owner=msg.sender;
+    constructor(address _owner){
+        owner=_owner;
     }
 
     modifier onlyOwner(){
