@@ -6,7 +6,7 @@ pragma solidity ^0.8.0;
 
 contract WalletFactory {
     
-    mapping(address => address) walletOwnership;
+    mapping(address => address) public walletOwnership;
 
     function createWallet() external {
         require(walletOwnership[msg.sender] == address(0));

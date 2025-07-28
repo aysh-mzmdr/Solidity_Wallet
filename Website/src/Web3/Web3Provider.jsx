@@ -1,10 +1,19 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Web3 from "web3"
 import { Web3Context } from "./Web3Context.jsx"
 
 function Web3Provider({children}){                  // Destructuring children components
     const [account,setAccount]=useState("")
     const [web3,setWeb3]=useState("")
+
+    useEffect(() => {
+        const connect = async() => {
+            const user=localStorage.getItem("accountAddress")
+            if(user)
+                await connectWallet()
+        }
+        connect()
+    },[])
 
     const connectWallet = async () => {
         if(window.ethereum){
@@ -14,6 +23,7 @@ function Web3Provider({children}){                  // Destructuring children co
 
                 setWeb3(web3Instance)
                 setAccount(accounts[0])
+                localStorage.setItem("accountAddress",accounts[0])
             }
             catch(err){
                 if(err.code==4001)

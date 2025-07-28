@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react"
 import * as THREE from "three"
 import style from "./Home.module.css"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { createWallet,walletOwnership } from "./Web3/factoryService";
+import { createWallet } from "./Web3/factoryService";
 import { useNavigate } from "react-router-dom"
 import { Web3Context } from "./Web3/Web3Context";
 
