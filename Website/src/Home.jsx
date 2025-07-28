@@ -74,9 +74,9 @@ function Home(){
             <div className={style.login}>
                 <h1 className={style.head}>Wallet Ownership</h1>
                 {(!account || !web3)?
-                    (<button onClick={metamaskHandle}>Connect Metamask</button>)
+                    (<button className={style.connect} onClick={metamaskHandle}>Connect Metamask</button>)
                 :
-                    (<button onClick={walletHandle}>Own Wallet</button>)}
+                    (<button className={style.connect} onClick={walletHandle}>Own Wallet</button>)}
             </div>
             <canvas className="canva"></canvas>   
         </>

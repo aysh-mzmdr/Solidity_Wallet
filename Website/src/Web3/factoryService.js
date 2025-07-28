@@ -1,6 +1,6 @@
 import contractABI from "../contracts/WalletFactory.json"
 
-const contractAddress = "0xbfC0548AA52fD58bE94893d3E5FE8fc2FA46826e"
+const contractAddress = "0x01a54146A6fC9A324A368CC900c56599C00275D7"
 
 export const createWallet = async (web3,account) => {
 

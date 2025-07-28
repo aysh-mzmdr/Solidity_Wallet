@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { walletOwnership } from "./Web3/factoryService";
 import { balance,owner,credit,debit } from "./Web3/walletService";
 import { Web3Context } from "./Web3/Web3Context";
+import style from "./Wallet.module.css"
 
 function Wallet(){
 
@@ -12,6 +13,9 @@ function Wallet(){
     const [Balance,setBalance] = useState()
     const [Owner,setOwner] = useState()
     const [WalletAddress,setAddress] = useState()
+
+    const [credit,setCredit]=useState(0)
+    const [debit,setDebit]=useState(0)
     
     useEffect(() => {
 
@@ -76,13 +80,20 @@ function Wallet(){
     
     return(
         <>
-            <div>
-                <h1>Wallet</h1>
-                <label>Address:{WalletAddress}</label>
-                <label>Balance:{Balance}</label>
-                <label>Owner:{Owner}</label>
-                <button>Credit</button>
-                <button>Debit</button>
+            <div className={style.wallet}>
+                <div className={style.display}>
+                    <h1 style={{alignSelf:"center"}}>Wallet</h1>
+                    <label><label className={style.key}>Address:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{WalletAddress}</label></label>
+                    <label><label className={style.key}>Balance:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{Balance}</label></label>
+                    <label><label className={style.key}>Owner:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{Owner}</label></label>
+                    <label style={{opacity:`${credit||debit}`}} className={style.key}>Amount:<input placeholder="..."></input></label>
+                    <label style={{opacity:`${debit}`}} className={style.key}>Address:<input placeholder="..."></input></label>
+                    <div className={style.buttonArea}>
+                        <button className={style.transactOption} onClick={()=>{setCredit(1);setDebit(0)}}>Credit</button>
+                        <button className={style.transactOption} onClick={()=>{setCredit(0);setDebit(1)}}>Debit</button>
+                    </div>
+                    <button className={style.transact}>Transact</button>
+                </div>
             </div>
             <canvas className="canva"></canvas>
         </>
