@@ -8,14 +8,17 @@ import style from "./Wallet.module.css"
 
 function Wallet(){
 
-    const {web3,account,connectWallet} = useContext(Web3Context)
+    const {web3,account} = useContext(Web3Context)
 
-    const [Balance,setBalance] = useState()
-    const [Owner,setOwner] = useState()
-    const [WalletAddress,setAddress] = useState()
+    const [Balance,setBalance] = useState(0)
+    const [Owner,setOwner] = useState(0)
+    const [WalletAddress,setAddress] = useState(0)
 
-    const [credit,setCredit]=useState(0)
-    const [debit,setDebit]=useState(0)
+    const [creditStatus,setCredit]=useState(0)
+    const [debitStatus,setDebit]=useState(0)
+
+    const [sentAddress,setSentAddress] = useState(0)
+    const [amount,setAmount] = useState(0)
     
     useEffect(() => {
 
@@ -77,6 +80,15 @@ function Wallet(){
         return () => { window.removeEventListener("resize",handleResize)}
 
     },[])
+
+    const transactHandle=async()=>{
+        if(creditStatus)
+            await credit(web3,account,WalletAddress,amount)
+        else if(debitStatus)
+            await debit(web3,account,WalletAddress,amount,sentAddress)
+        else
+            window.alert("Please either choose Debit or Credit")
+    }
     
     return(
         <>
@@ -84,15 +96,15 @@ function Wallet(){
                 <div className={style.display}>
                     <h1 style={{alignSelf:"center"}}>Wallet</h1>
                     <label><label className={style.key}>Address:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{WalletAddress}</label></label>
-                    <label><label className={style.key}>Balance:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{Balance}</label></label>
+                    <label><label className={style.key}>Balance:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{Balance}</label>ETH</label>
                     <label><label className={style.key}>Owner:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{Owner}</label></label>
-                    <label style={{opacity:`${credit||debit}`}} className={style.key}>Amount:<input placeholder="..."></input></label>
-                    <label style={{opacity:`${debit}`}} className={style.key}>Address:<input placeholder="..."></input></label>
+                    <label style={{opacity:`${creditStatus||debitStatus}`}} className={style.key}>Amount:<input className={style.amount} value={amount} onChange={e => setAmount(e.target.value)}></input><label className={style.temp}>ETH</label></label>
+                    <label style={{opacity:`${debitStatus}`}} className={style.key}>Address:<input value={sentAddress} onChange={e => setSentAddress(e.target.value)}></input></label>
                     <div className={style.buttonArea}>
                         <button className={style.transactOption} onClick={()=>{setCredit(1);setDebit(0)}}>Credit</button>
                         <button className={style.transactOption} onClick={()=>{setCredit(0);setDebit(1)}}>Debit</button>
                     </div>
-                    <button className={style.transact}>Transact</button>
+                    <button className={style.transact} onClick={transactHandle}>Transact</button>
                 </div>
             </div>
             <canvas className="canva"></canvas>

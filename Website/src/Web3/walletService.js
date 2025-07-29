@@ -6,8 +6,9 @@ export const balance = async(web3,account,contractAddress)=>{
 
     const contractInstance = new web3.eth.Contract(contractABI.abi,contractAddress)
     const balance = await contractInstance.methods.balance().call()
+    const balanceSent = web3.utils.fromWei(balance,"ether")
 
-    return balance
+    return balanceSent
 }
 
 export const owner = async(web3,account,contractAddress)=>{
@@ -24,16 +25,17 @@ export const debit = async(web3,account,contractAddress,amount,address)=>{
  
     if(!web3 || !account) throw new Error("Error Connecting")
 
+    const sentAmount = web3.utils.toWei(amount,"ether")
     const contractInstance = new web3.eth.Contract(contractABI.abi,contractAddress)
-    const receipt = await contractInstance.methods.debit(amount,address).send({from:account})
+    const receipt = await contractInstance.methods.debit(sentAmount,address).send({from:account})
     return receipt
 }
 
 export const credit = async(web3,account,contractAddress,amount)=>{
  
     if(!web3 || !account) throw new Error("Error Connecting")
-
+    const sentAmount= web3.utils.toWei(amount,"ether")
     const contractInstance = new web3.eth.Contract(contractABI.abi,contractAddress)
-    const receipt = await contractInstance.methods.credit().send({from:account,value:amount})
+    const receipt = await contractInstance.methods.credit().send({from:account,value:sentAmount})
     return receipt
 }

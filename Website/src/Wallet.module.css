@@ -22,7 +22,7 @@ body{
     align-items: start;
     backdrop-filter: blur(50px);
     height:500px;
-    width:510px;
+    width:525px;
     font-size: 18px;
     gap:1.2em;
     padding-inline: 10px;;
@@ -38,7 +38,7 @@ body{
 .buttonArea{
   display: flex;
   column-gap: 80px;
-  padding-inline:32px ;
+  padding-inline:65px ;
   margin-top: 50px;
 }
 
@@ -88,9 +88,20 @@ input{
   padding: 8px;
   border-radius: 10px;
   border: none;
+  width:420px;
+}
+
+.amount{
+  width:100px;
 }
 
 input:focus{
   border: none;
   outline: none;
+}
+
+.temp{
+  color:black;
+  font-size: 18px;
+  text-shadow: none;
 }
