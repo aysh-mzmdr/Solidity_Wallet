@@ -65,8 +65,13 @@ function Home(){
     }
 
     const walletHandle=async()=>{
-        await createWallet(web3,account)
-        navigate("/wallet")
+        try{
+            await createWallet(web3,account)
+            navigate("/wallet")
+        }
+        catch(err){
+            window.alert(err)
+        }
     }
 
     return(
@@ -76,7 +81,7 @@ function Home(){
                 {(!account || !web3)?
                     (<button className={style.connect} onClick={metamaskHandle}>Connect Metamask</button>)
                 :
-                    (<button className={style.connect} onClick={walletHandle}>Own Wallet</button>)}
+                    (<button id="ownWallet" className={style.connect} onClick={walletHandle}>Own Wallet</button>)}
             </div>
             <canvas className="canva"></canvas>   
         </>

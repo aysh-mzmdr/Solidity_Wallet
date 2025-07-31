@@ -23,10 +23,15 @@ function Wallet(){
     useEffect(() => {
 
         const setup = async()=>{
-            const Address = await walletOwnership(web3,account)
-            setAddress(Address)
-            setOwner(await owner(web3,account,Address))
-            setBalance(await balance(web3,account,Address))
+            try{
+                const Address = await walletOwnership(web3,account)
+                setAddress(Address)
+                setOwner(await owner(web3,account,Address))
+                setBalance(await balance(web3,account,Address))
+            }
+            catch(err){
+                window.alert(err)
+            }
         }
 
         setup()
@@ -82,10 +87,22 @@ function Wallet(){
     },[])
 
     const transactHandle=async()=>{
-        if(creditStatus)
-            await credit(web3,account,WalletAddress,amount)
-        else if(debitStatus)
-            await debit(web3,account,WalletAddress,amount,sentAddress)
+        if(creditStatus){
+            try{
+                await credit(web3,account,WalletAddress,amount)
+            }
+            catch(err){
+                window.alert(err)
+            }
+        }
+        else if(debitStatus){
+            try{
+                await debit(web3,account,WalletAddress,amount,sentAddress)
+            }
+            catch(err){
+                window.alert(err)
+            }
+        }
         else
             window.alert("Please either choose Debit or Credit")
     }
@@ -94,7 +111,7 @@ function Wallet(){
         <>
             <div className={style.wallet}>
                 <div className={style.display}>
-                    <h1 style={{alignSelf:"center"}}>Wallet</h1>
+                    <h1 className={style.head}>Wallet</h1>
                     <label><label className={style.key}>Address:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{WalletAddress}</label></label>
                     <label><label className={style.key}>Balance:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{Balance}</label>ETH</label>
                     <label><label className={style.key}>Owner:</label><label style={{fontSize:"20px",paddingInline:"10px"}}>{Owner}</label></label>

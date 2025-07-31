@@ -9,8 +9,9 @@ function Web3Provider({children}){                  // Destructuring children co
     useEffect(() => {
         const connect = async() => {
             const user=localStorage.getItem("accountAddress")
-            if(user)
+            if(user){
                 await connectWallet()
+            }
         }
         connect()
     },[])
@@ -27,13 +28,13 @@ function Web3Provider({children}){                  // Destructuring children co
             }
             catch(err){
                 if(err.code==4001)
-                    console.log("Need Permission to connect to Metamask")
+                    window.alert("Need Permission to connect to Metamask")
                 else
-                    console.log(err)
+                    window.alert("There is some problem with your Metamask. Make sure you have a valid account for Ethereum Blockchain")
             }
         }
         else{
-            console.log("Please install Metamask")
+            window.alert("Please install Metamask")
         }
     }
 
